@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Kanban on Cloudflare</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#e5e5e5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.container{max-width:720px;text-align:center}
+h1{font-size:2.5rem;font-weight:700;margin-bottom:0.5rem;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{font-size:1.1rem;color:#9ca3af;margin-bottom:2rem}
+.card{background:#1f2937;border-radius:12px;padding:2rem;margin-bottom:1.5rem;text-align:left}
+.card h2{color:#60a5fa;font-size:1.1rem;margin-bottom:0.75rem}
+.card p{color:#d1d5db;font-size:0.9rem;line-height:1.6;margin-bottom:0.5rem}
+.card code{background:#374151;color:#93c5fd;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.85rem}
+.card .cmd{display:block;background:#111827;color:#22c55e;padding:0.75rem 1rem;border-radius:8px;font-family:monospace;font-size:0.85rem;margin:0.5rem 0;overflow-x:auto}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;font-size:1rem;font-weight:500;background:#3b82f6;color:white;text-decoration:none;transition:background 0.2s;margin-top:1rem}
+.btn:hover{background:#2563eb}
+footer{margin-top:2rem;font-size:0.8rem;color:#6b7280}
+a{color:#60a5fa}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Cline Kanban</h1>
+<p class="subtitle">Cloudflare Worker deployed successfully</p>
+
+<div class="card">
+<h2>Deploy the Kanban container</h2>
+<p>The Worker is running. To complete the setup, deploy the Kanban container separately:</p>
+<div class="cmd"># Build and push the container image
+GITHUB_TOKEN=ghp_xxx ./podman-build-and-push.sh</div>
+<div class="cmd"># Push container to Cloudflare
+npx wrangler container push --image ghcr.io/djinn/clinebox-kanban:latest --name clinebox-kanban-container --port 3484</div>
+<div class="cmd"># Update service binding and redeploy Worker
+npx wrangler deploy</div>
+</div>
+
+<div class="card">
+<h2>Quick local test</h2>
+<p>Run Kanban locally to verify it works:</p>
+<div class="cmd">npx kanban --host 0.0.0.0</div>
+</div>
+
+<div class="card">
+<h2>Resources</h2>
+<p><a href="https://github.com/djinn/clinebox">Deployment repo</a> &bull; <a href="https://github.com/cline/kanban">Cline Kanban</a> &bull; <a href="https://docs.cline.bot/guides/remote-access">Remote access guide</a></p>
+</div>
+
+<footer>Deployed on <a href="https://cloudflare.com">Cloudflare</a></footer>
+</div>
+</body>
+</html>
